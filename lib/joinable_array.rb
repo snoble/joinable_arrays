@@ -25,7 +25,7 @@ class RelationalMethods
 
   def self.fill_cube(left, right, &block)
     right_hash = right[idx = 0]
-    new_array = left.slice(0, left.size)
+    new_array = left.slice(0, 0)
     previously_added = nil
     left.each do |left_hash|
       while right_hash && (right_hash[:key] <=> left_hash[:key]) < 0
@@ -35,6 +35,7 @@ class RelationalMethods
         end
         right_hash = right[idx += 1]
       end
+      new_array << left_hash
       while right_hash && right_hash[:key] == left_hash[:key]
         right_hash = right[idx += 1]
       end
