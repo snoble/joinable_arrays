@@ -23,7 +23,10 @@ joinable_array offers a JoinableArray class which can be used as
 ```ruby
 things1 = JoinableArray(array1)
 things2 = JoinableArray(array2)
- 
+
+outer_join = things1
+  .outer_join(things2) {|l,r| l.merge(r)}
+
 inner_join = things1
   .joins_on {|x| [x[0], x[1]]}
   .inner_join(things2.joins_on {|x| [x.a, x.b]}) {|l,r| l.merge(r)}
@@ -41,13 +44,4 @@ right_join = things1
   ) {|l,r| l.merge(r)}
 ```
 
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
-=======
-joinable_arrays
-===============
+The simplest join is `outer_join` which is a method on `JoinableArray` and requires another `JoinableArray` as its parameter and returns a 3rd `JoinableArray` which is the outer join of the original two `JoinableArray` instances. The elements of the returned `JoinableArray` is defined by the block passed to `outer_join`. The block accepts two parameters: the first is an element from the first `JoinableArray` and the second is from the other `JoinableArray`. The block returns the value of resulting `JoinableArray`

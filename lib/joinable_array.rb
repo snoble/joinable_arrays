@@ -31,7 +31,7 @@ class RelationalMethods
       while right_hash && (right_hash[:key] <=> left_hash[:key]) < 0
         if previously_added == nil || (right_hash[:key] <=> previously_added) > 0
           previously_added = right_hash[:key] 
-          new_array << {key: right_hash[:key], object: block ? block.call(right_hash[:key]) : nil}
+          new_array << {:key => right_hash[:key], :object => block ? block.call(right_hash[:key]) : nil}
         end
         right_hash = right[idx += 1]
       end
@@ -43,7 +43,7 @@ class RelationalMethods
     while right_hash
       if previously_added == nil || (right_hash[:key] <=> previously_added) > 0
         previously_added = right_hash[:key]
-        new_array << {key: right_hash[:key], object: block ? block.call(right_hash[:key]) : nil}
+        new_array << {:key => right_hash[:key], :object => block ? block.call(right_hash[:key]) : nil}
       end
       right_hash = right[idx += 1]
     end
@@ -68,10 +68,8 @@ class RelationalMethods
   end
 
   def self.left_and_right(left_a, right_a, left_key, right_key)
-    left = left_a.map {|x| {:key => left_key ? left_key.call(x) : 0, :object => x}}
-      .sort_by {|x| x[:key]}
-    right = right_a.map {|x| {:key => right_key ? right_key.call(x) : 0, :object => x}}
-      .sort_by {|x| x[:key]}
+    left = left_a.map {|x| {:key => left_key ? left_key.call(x) : 0, :object => x}}.sort_by {|x| x[:key]}
+    right = right_a.map {|x| {:key => right_key ? right_key.call(x) : 0, :object => x}}.sort_by {|x| x[:key]}
     [left, right]
   end
 end
