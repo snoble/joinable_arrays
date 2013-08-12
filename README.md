@@ -7,7 +7,7 @@ A small gem to make it easier to do relational joins with arrays in ruby without
 ```ruby
   city_building = JoinableArray.new([
     {:city => 'Paris', :building => "Eiffel Tower"},
-    {:city => 'Paris', :building => "Eiffel Tower"},
+    {:city => 'Paris', :building => "Louvre"},
     {:city => 'Moscow', :building => "St Basil's Cathedral"},
     {:city => 'Baghdad', :building => "Victory Arch"}
   ])
