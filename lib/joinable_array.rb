@@ -79,18 +79,26 @@ module Joinable
     RelationalMethods.inner_join(self, that, join_key, that.join_key, &block)
   end
 
-  def join_on(&block)
+  def join_on!(&block)
     @join_key = block
     self
+  end
+
+  def join_on(&block)
+    self.clone.join_on!(&block)
   end
 
   def join_key
     @join_key
   end
 
-  def fills_with(&block)
+  def fills_with!(&block)
     @fill_row = block
     self
+  end
+
+  def fills_with(&block)
+    self.clone.fills_with!(&block)
   end
 
   def fill_row

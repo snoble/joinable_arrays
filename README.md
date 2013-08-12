@@ -19,8 +19,8 @@ A small gem to make it easier to do relational joins with arrays in ruby without
     {:city => 'New York', :country => "USA"}
   ])
 
-  city_building.join_on {|x| x[:city]}
-  city_country.join_on {|x| x[:city]}
+  city_building.join_on! {|x| x[:city]}
+  city_country.join_on! {|x| x[:city]}
   building_country = city_building.inner_join(city_country) {|cb, cc| {:building => cb[:building], :country => cc[:country]}}
 ```
 
