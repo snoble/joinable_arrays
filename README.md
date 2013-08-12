@@ -23,9 +23,15 @@ A small gem to make it easier to do relational joins with arrays in ruby without
   city_country.join_on {|x| x[:city]}
   building_country = city_building.inner_join(city_country) {|cb, cc| {:building => cb[:building], :country => cc[:country]}}
 ```
-result:
+
+results in :
 ```ruby
-  => [{:building=>"Victory Arch", :country=>"Iraq"}, {:building=>"St Basil's Cathedral", :country=>"Russia"}, {:building=>"Eiffel Tower", :country=>"France"}, {:building=>"Eiffel Tower", :country=>"France"}]
+  => [
+    {:building=>"Victory Arch", :country=>"Iraq"},
+    {:building=>"St Basil's Cathedral", :country=>"Russia"},
+    {:building=>"Louvre", :country=>"France"},
+    {:building=>"Eiffel Tower", :country=>"France"}
+  ]
 ```
 
 joinable_array offers a JoinableArray class which can be used as
