@@ -44,18 +44,18 @@ outer_join = things1
   .outer_join(things2) {|l,r| l.merge(r)}
 
 inner_join = things1
-  .joins_on {|x| [x[0], x[1]]}
-  .inner_join(things2.joins_on {|x| [x.a, x.b]}) {|l,r| l.merge(r)}
+  .join_on {|x| [x[0], x[1]]}
+  .inner_join(things2.join_on {|x| [x.a, x.b]}) {|l,r| l.merge(r)}
  
 left_join = things1
-  .joins_on {|x| [x[0], x[1]]}
+  .join_on {|x| [x[0], x[1]]}
   .fills_with {|key| key[0 .. -1].concat([0,0,0])}
-  .left_join(things2.joins_on {|x| [x.a, x.b]}) {|l,r| l.merge(r)}
+  .left_join(things2.join_on {|x| [x.a, x.b]}) {|l,r| l.merge(r)}
  
 right_join = things1
-  .joins_on {|x| [x[0], x[1]]}
+  .join_on {|x| [x[0], x[1]]}
   .right_join(things2
-    .joins_on {|x| [x.a, x.b]}
+    .join_on {|x| [x.a, x.b]}
     .fills_with {|key|, Obj.new(*key)}
   ) {|l,r| l.merge(r)}
 ```
