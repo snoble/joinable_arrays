@@ -1,6 +1,6 @@
 # JoinableArray
 
-TODO: Write a gem description
+A small gem to make it easier to do relational joins with arrays in ruby without requiring database calls.
 
 ## Installation
 
