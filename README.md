@@ -2,21 +2,31 @@
 
 A small gem to make it easier to do relational joins with arrays in ruby without requiring database calls.
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'joinable_array'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install joinable_array
-
 ## Usage
+
+```ruby
+  city_building = JoinableArray.new([
+    {:city => 'Paris', :building => "Eiffel Tower"},
+    {:city => 'Paris', :building => "Eiffel Tower"},
+    {:city => 'Moscow', :building => "St Basil's Cathedral"},
+    {:city => 'Baghdad', :building => "Victory Arch"}
+  ])
+
+  city_country = JoinableArray.new([
+    {:city => 'Paris', :country => "France"},
+    {:city => 'Moscow', :country => "Russia"},
+    {:city => 'Baghdad', :country => "Iraq"},
+    {:city => 'New York', :country => "USA"}
+  ])
+
+  city_building.join_on {|x| x[:city]}
+  city_country.join_on {|x| x[:city]}
+  building_country = city_building.inner_join(city_country) {|cb, cc| {:building => cb[:building], :country => cc[:country]}}
+```
+result:
+```ruby
+  => [{:building=>"Victory Arch", :country=>"Iraq"}, {:building=>"St Basil's Cathedral", :country=>"Russia"}, {:building=>"Eiffel Tower", :country=>"France"}, {:building=>"Eiffel Tower", :country=>"France"}]
+```
 
 joinable_array offers a JoinableArray class which can be used as
 
@@ -45,3 +55,17 @@ right_join = things1
 ```
 
 The simplest join is `outer_join` which is a method on `JoinableArray` and requires another `JoinableArray` as its parameter and returns a 3rd `JoinableArray` which is the outer join of the original two `JoinableArray` instances. The elements of the returned `JoinableArray` is defined by the block passed to `outer_join`. The block accepts two parameters: the first is an element from the first `JoinableArray` and the second is from the other `JoinableArray`. The block returns the value of resulting `JoinableArray`
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+    gem 'joinable_array'
+
+And then execute:
+
+    bundle
+
+Or install it yourself as:
+
+    gem install joinable_array
