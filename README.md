@@ -6,17 +6,17 @@ A small gem to make it easier to do relational joins with arrays in ruby without
 
 ```ruby
   city_building = JoinableArray.new([
-    {:city => 'Paris', :building => "Eiffel Tower"},
-    {:city => 'Paris', :building => "Louvre"},
+    {:city => 'Paris', :building => "The Eiffel Tower"},
+    {:city => 'Paris', :building => "The Louvre"},
     {:city => 'Moscow', :building => "St Basil's Cathedral"},
-    {:city => 'Baghdad', :building => "Victory Arch"}
+    {:city => 'Baghdad', :building => "The Victory Arch"}
   ])
 
   city_country = JoinableArray.new([
     {:city => 'Paris', :country => "France"},
     {:city => 'Moscow', :country => "Russia"},
     {:city => 'Baghdad', :country => "Iraq"},
-    {:city => 'New York', :country => "USA"}
+    {:city => 'New York', :country => "The USA"}
   ])
 
   city_building.join_on! {|x| x[:city]}
@@ -24,13 +24,31 @@ A small gem to make it easier to do relational joins with arrays in ruby without
   building_country = city_building.inner_join(city_country) {|cb, cc| {:building => cb[:building], :country => cc[:country]}}
 ```
 
-results in :
+results as:
 ```ruby
   => [
-    {:building=>"Victory Arch", :country=>"Iraq"},
+    {:building=>"The Victory Arch", :country=>"Iraq"},
     {:building=>"St Basil's Cathedral", :country=>"Russia"},
-    {:building=>"Louvre", :country=>"France"},
-    {:building=>"Eiffel Tower", :country=>"France"}
+    {:building=>"The Louvre", :country=>"France"},
+    {:building=>"The Eiffel Tower", :country=>"France"}]
+```
+
+But maybe you'd like to make a statement for every city; even if you don't have a building for it. In that case you'd want a right join and you might do something like
+```ruby
+  city_building.join_on! {|x| x[:city]}
+  city_building.fills_with! {|missing_city| {:city => missing_city, :building => 'the first building I see'}}
+  city_country.join_on! {|x| x[:city]}
+  country_statements = city_building.right_join(city_country) {|cb, cc| "When I visit #{cc[:country]} I will photograph #{cb[:building]}"}
+```
+
+results as:
+```ruby
+=> [
+    "When I visit Iraq I will photograph The Victory Arch",
+    "When I visit Russia I will photograph St Basil's Cathedral",
+    "When I visit USA I will photograph the first building I see",
+    "When I visit France I will photograph The Louvre",
+    "When I visit France I will photograph The Eiffel Tower"
   ]
 ```
 
